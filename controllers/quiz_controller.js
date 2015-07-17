@@ -34,7 +34,7 @@ exports.answer = function(req, res) {
 
 //GET /quizes
 exports.index = function(req, res) {
-  var search = " "
+  var search = " ";
   if(req.query.search !== undefined){
   var search = req.query.search;
 }
@@ -42,5 +42,23 @@ exports.index = function(req, res) {
   console.log(search);
   models.Quiz.findAll({where:["pregunta like ?",search] ,order:["pregunta"]}).then(function(quizes) {
     res.render('quizes/index.ejs', { quizes: quizes});
+  })
+};
+
+//GET /quizes/new
+exports.new_pregunta= function(req , res) {
+  var quiz = models.Quiz.build(
+    { pregunta: "Pregunta",  respuesta: "Respuesta"}
+  );
+  console.log(quiz);
+
+  res.render('quizes/new_pregunta', { quiz: quiz} );
+};
+
+//POST /quizes/create
+exports.create = function(req, res) {
+  var quiz = models.Quiz.build( req.body.quiz);
+  quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+    res.redirect('/quizes');
   })
 };
