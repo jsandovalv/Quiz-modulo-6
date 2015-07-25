@@ -18,7 +18,8 @@ router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 router.get('/quizes/new_pregunta' , quizController.new_pregunta);
 router.post('/quizes/create' , quizController.create);
 router.get('/quizes/:quizId(\\d+)/edit', quizController.edit);
-router.post('/quizes/:quizId(\\d+)', quizController.update);
+router.put('/quizes/:quizId(\\d+)', quizController.update);
+router.delete('/quizes/:quizId(\\d+)', quizController.destroy);
 
 router.get('/author',function(req, res) {
   res.render('author',{autor: "Jorge Sandoval", pais: "Chile",errors: []});
