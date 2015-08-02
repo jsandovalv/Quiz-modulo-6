@@ -30,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Helpers dinamicos:
 app.use(function(req,res,next) {
+
   //guardar path en session.redir para despues de login
   if(!req.path.match(/\/login|\/logout/)) {
     req.session.redir = req.path;
@@ -40,6 +41,16 @@ app.use(function(req,res,next) {
     next();
 
 });
+
+//auto-logout
+app.use(function(req, res, next){
+
+  if(req.session.user != null  && req.session.cookie._expires === null ){
+    req.session.cookie.originalMaxAge=30000;
+  }
+  next();
+});
+
 
 app.use('/', routes);
 
